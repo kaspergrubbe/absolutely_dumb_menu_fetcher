@@ -1,0 +1,21 @@
+FROM instrumentisto/geckodriver:119.0-driver0.33.0-debian
+
+RUN apt-get update && \
+    apt-get install -y gnupg wget curl unzip build-essential coreutils ruby ruby-bundler ruby-dev --fix-missing --no-install-recommends
+
+RUN mkdir /app
+WORKDIR /app
+COPY Gemfile Gemfile.lock generate.rb .
+COPY templates/template.html.erb templates/
+COPY lib/array_compare.rb lib/sample_match_data.rb lib/search.rb lib/
+COPY images/allergener_icon_ffox.png images/allergener_icon_ffox2.png images/
+ENV USER_GROUP=agent
+RUN groupadd -r ${USER_GROUP} && \
+	useradd --home-dir /home/${USER_GROUP} --create-home -g ${USER_GROUP} ${USER_GROUP}
+RUN bundle config set --local jobs 8 && bundle install --verbose
+RUN chown -R ${USER_GROUP}:${USER_GROUP} /app /app/*
+
+USER ${USER_GROUP}
+
+ENTRYPOINT []
+CMD []
