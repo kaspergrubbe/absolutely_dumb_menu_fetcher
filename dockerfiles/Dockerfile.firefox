@@ -5,7 +5,7 @@ RUN apt-get update && \
 
 RUN mkdir /app
 WORKDIR /app
-COPY Gemfile Gemfile.lock generate.rb .
+COPY Gemfile Gemfile.lock generate.rb test.rb .
 COPY templates/template.html.erb templates/
 COPY lib/array_compare.rb lib/sample_match_data.rb lib/search.rb lib/
 COPY images/allergener_icon_ffox.png images/allergener_icon_ffox2.png images/
@@ -16,6 +16,9 @@ RUN bundle config set --local jobs 8 && bundle install --verbose
 RUN chown -R ${USER_GROUP}:${USER_GROUP} /app /app/*
 
 USER ${USER_GROUP}
+
+# Sanity test and caching
+RUN bundle exec ruby test.rb
 
 ENTRYPOINT []
 CMD []
