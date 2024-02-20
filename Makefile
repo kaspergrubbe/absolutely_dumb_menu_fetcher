@@ -1,4 +1,4 @@
-.PHONY: push
+.PHONY: enter run build dive push
 
 enter:
 	@docker run --env-file envs/example.env -it --platform linux/amd64 kitchenscreen /bin/bash
