@@ -1,4 +1,4 @@
-FROM instrumentisto/geckodriver:119.0-driver0.33.0-debian
+FROM instrumentisto/geckodriver:122.0.1-driver0.34.0-debian
 
 RUN apt-get update && \
     apt-get install -y gnupg wget curl unzip build-essential coreutils ruby ruby-bundler ruby-dev --fix-missing --no-install-recommends
